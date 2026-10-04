@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(/hidden_tests/**)",
+      "Read(/.gabarito/**)",
+      "Read(**/*.b64)",
+      "Read(~/.claude/plans/**)",
+      "Read(~/.claude/projects/**)",
+      "Read(~/.claude/file-history/**)",
+      "Read(~/AppData/Local/Temp/claude/**)",
+      "Edit(/tests/**)",
+      "Edit(/conftest.py)",
+      "Edit(/pytest.ini)",
+      "Edit(/.ignore)",
+      "Edit(/CLAUDE.md)",
+      "Edit(/.claude/**)",
+      "Bash(git grep *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/trava_treino.py"]
+          }
+        ]
+      }
+    ]
+  }
+}

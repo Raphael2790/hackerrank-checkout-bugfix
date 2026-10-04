@@ -1,0 +1,3 @@
+# Buscas feitas com ripgrep (Grep do Claude Code, rg, busca do VS Code) pulam estas pastas.
+hidden_tests/
+.gabarito/

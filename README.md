@@ -147,8 +147,8 @@ pytest
 pytest tests hidden_tests
 
 # 3) Você mexeu só no código, e não nos testes? (as duas saídas têm que vir vazias)
-git status --short tests hidden_tests conftest.py
-git diff --stat -- tests hidden_tests conftest.py
+git status --short tests hidden_tests conftest.py pytest.ini
+git diff --stat -- tests hidden_tests conftest.py pytest.ini
 
 # 4) Revise o que mudou: a correção deve ser pequena e no lugar certo
 git diff
@@ -164,7 +164,31 @@ Dicas:
   (ex.: `meus_testes/test_chamados.py`, rodando com `pytest meus_testes`). Veja o teste falhar,
   corrija o código e veja o teste passar. As fixtures `client`, `make_cart` e `stock` de `conftest.py`
   também funcionam ali.
+- `pytest` sozinho (ou `pytest .`) nunca roda os testes ocultos; eles só rodam quando você pede
+  `pytest tests hidden_tests`.
 - Para recomeçar do zero: `git stash` (guarda suas mudanças) ou `git checkout -- app` (descarta as mudanças).
+
+## Usando a IA (Claude Code) neste treino
+
+- Abra **esta pasta** como raiz no VS Code (Arquivo > Abrir Pasta... > `hackerrank-checkout-bugfix`) ou rode
+  `claude` de dentro dela. As travas abaixo só valem para sessões iniciadas aqui.
+- O `CLAUDE.md` faz do Claude Code um par de programação que **escreve código para você** (testes de reprodução,
+  prints de investigação e as correções que você decidir) e **dá dicas**, mas **não entrega as respostas** (qual é
+  o bug, onde está, qual é a correção) e **não lê** os testes ocultos, o gabarito nem os rastros da criação do
+  desafio. Dicas são por nível e por chamado: peça `dica 1 #1042`, depois `dica 2 #1042`, e assim por diante (vão
+  até o nível 4; a correção é sempre decisão sua).
+- Travas técnicas, além das instruções: `.claude/settings.json` bloqueia a leitura de `hidden_tests/`,
+  `.gabarito/` e dos rastros da criação do desafio, e bloqueia a edição dos testes, do `conftest.py`, do
+  `pytest.ini` e das próprias travas; o hook `.claude/hooks/trava_treino.py` barra comandos e arquivos que citem
+  essas pastas ou façam buscas recursivas pelo terminal; o `.ignore` tira essas pastas das buscas (inclusive do
+  Ctrl+Shift+F do VS Code).
+- Para conferir se está tudo ativo: no Claude Code, rode `/permissions` (devem aparecer as regras de "deny") e
+  `/hooks` (deve aparecer o `PreToolUse`). Depois peça "leia hidden_tests/test_hidden.py": ele deve recusar ou ser
+  bloqueado.
+- Não edite nem apague `CLAUDE.md` e `.claude/` durante o treino. Quando terminar, se quiser discutir tudo
+  livremente com a IA (inclusive os testes ocultos), apague ou renomeie esses dois.
+- Limite: as travas não são um sandbox do sistema operacional. Um script que abra arquivos sem citar o caminho
+  passaria; por isso o `CLAUDE.md` também proíbe isso.
 
 ## Gabarito
 
