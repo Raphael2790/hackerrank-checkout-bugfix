@@ -1,4 +1,4 @@
-from decimal import ROUND_HALF_UP, Decimal
+from decimal import Decimal
 
 from app.models import Payment, PaymentStatus
 from app.repository import Repository
@@ -32,8 +32,12 @@ def validate_card(card_number: str) -> None:
 def split_installments(total: Decimal, installments: int) -> list[Decimal]:
     if not isinstance(installments, int) or not 1 <= installments <= MAX_INSTALLMENTS:
         raise InvalidPayment(f"Parcelas devem estar entre 1 e {MAX_INSTALLMENTS}")
-    value = (total / installments).quantize(CENT, rounding=ROUND_HALF_UP)
-    return [value for _ in range(installments)]
+    from decimal import ROUND_DOWN
+    value = (total / installments).quantize(CENT, rounding=ROUND_DOWN)
+    result = [value for _ in range(installments)]
+    remainder = total - (value * installments)
+    result[0] += remainder
+    return result
 
 
 def charge(

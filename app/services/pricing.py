@@ -65,7 +65,7 @@ def calculate_discount(subtotal: Decimal, coupon: Coupon | None) -> Decimal:
 def calculate_shipping(discounted_subtotal: Decimal, coupon: Coupon | None) -> Decimal:
     if coupon is not None and coupon.free_shipping:
         return ZERO
-    if discounted_subtotal > FREE_SHIPPING_THRESHOLD:
+    if discounted_subtotal >= FREE_SHIPPING_THRESHOLD:
         return ZERO
     return SHIPPING_FEE
 

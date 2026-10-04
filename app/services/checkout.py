@@ -32,7 +32,7 @@ def checkout(
     order = Order(
         id=order_id,
         cart_id=cart.id,
-        items=cart.items,
+        items=list(cart.items),
         subtotal=breakdown.subtotal,
         discount=breakdown.discount,
         shipping=breakdown.shipping,
